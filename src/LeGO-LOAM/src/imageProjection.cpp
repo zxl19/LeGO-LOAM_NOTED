@@ -77,9 +77,12 @@ private:
     uint16_t *queueIndY;
 
 public:
+    // 构造函数
     ImageProjection():
         nh("~"){
         // 订阅来自velodyne雷达驱动的topic ("/velodyne_points")
+        // 定义Publisher和Subscriber
+        // 收到消息后调用cloudHandler函数
         subLaserCloud = nh.subscribe<sensor_msgs::PointCloud2>("/velodyne_points", 1, &ImageProjection::cloudHandler, this);
         
         pubFullCloud = nh.advertise<sensor_msgs::PointCloud2> ("/full_cloud_projected", 1);
@@ -154,7 +157,7 @@ public:
         std::fill(fullCloud->points.begin(), fullCloud->points.end(), nanPoint);
         std::fill(fullInfoCloud->points.begin(), fullInfoCloud->points.end(), nanPoint);
     }
-
+    // 析构函数
     ~ImageProjection(){}
 	
     void copyPointCloud(const sensor_msgs::PointCloud2ConstPtr& laserCloudMsg){
@@ -164,7 +167,7 @@ public:
     }
     
     void cloudHandler(const sensor_msgs::PointCloud2ConstPtr& laserCloudMsg){
-
+        // 查看各函数的具体功能
         copyPointCloud(laserCloudMsg);
         findStartEndAngle();
         projectPointCloud();
@@ -186,6 +189,7 @@ public:
         // 下面这句话怀疑作者可能写错了，laserCloudIn->points.size() - 2应该是laserCloudIn->points.size() - 1
         segMsg.endOrientation   = -atan2(laserCloudIn->points[laserCloudIn->points.size() - 1].y,
                                                      laserCloudIn->points[laserCloudIn->points.size() - 2].x) + 2 * M_PI;
+        // ?需要确定point的第一个元素和最后一个元素的实际物理含义
 		// 开始和结束的角度差一般是多少？
 		// 一个velodyne 雷达数据包转过的角度多大？
         // 雷达一般包含的是一圈的数据，所以角度差一般是2*PI，一个数据包转过360度
@@ -218,6 +222,7 @@ public:
 			
             // rowIdn计算出该点激光雷达是竖直方向上第几线的
 			// 从下往上计数，-15度记为初始线，第0线，一共16线(N_SCAN=16)
+            // TODO：对于角分辨率非定值的非Velodyne雷达需要调整
             rowIdn = (verticalAngle + ang_bottom) / ang_res_y;
             if (rowIdn < 0 || rowIdn >= N_SCAN)
                 continue;
@@ -564,7 +569,7 @@ public:
 int main(int argc, char** argv){
 
     ros::init(argc, argv, "lego_loam");
-    
+    // 查看构造函数
     ImageProjection IP;
 
     ROS_INFO("\033[1;32m---->\033[0m Image Projection Started.");
