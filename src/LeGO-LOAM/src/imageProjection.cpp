@@ -222,7 +222,7 @@ public:
 			
             // rowIdn计算出该点激光雷达是竖直方向上第几线的
 			// 从下往上计数，-15度记为初始线，第0线，一共16线(N_SCAN=16)
-            // TODO：对于角分辨率非定值的非Velodyne雷达需要调整
+            // *对于角分辨率非定值的非Velodyne雷达需要调整（已解决）
             rowIdn = (verticalAngle + ang_bottom) / ang_res_y;
             if (rowIdn < 0 || rowIdn >= N_SCAN)
                 continue;
