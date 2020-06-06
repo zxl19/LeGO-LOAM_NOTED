@@ -1476,7 +1476,7 @@ public:
                 surfOptimization(iterCount);
 
                 if (LMOptimization(iterCount) == true)
-                    break;              
+                    break;
             }
 
             // 迭代结束更新相关的转移矩阵
@@ -1536,7 +1536,7 @@ public:
         // const boost::optional< FastMap< Key, int > > & 	constrainedKeys = boost::none,
         // const boost::optional< FastList< Key > > & 	noRelinKeys = boost::none,
         // const boost::optional< FastList< Key > > & 	extraReelimKeys = boost::none,
-        // bool 	force_relinearize = false )	
+        // bool 	force_relinearize = false )
         // gtSAMgraph是新加到系统中的因子
         // initialEstimate是加到系统中的新变量的初始点
         isam->update(gtSAMgraph, initialEstimate);
@@ -1615,7 +1615,7 @@ public:
 				cloudKeyPoses6D->points[i].x = cloudKeyPoses3D->points[i].x;
 	            cloudKeyPoses6D->points[i].y = cloudKeyPoses3D->points[i].y;
 	            cloudKeyPoses6D->points[i].z = cloudKeyPoses3D->points[i].z;
-                // 
+                //
 	            cloudKeyPoses6D->points[i].roll  = isamCurrentEstimate.at<Pose3>(i).rotation().pitch();
 	            cloudKeyPoses6D->points[i].pitch = isamCurrentEstimate.at<Pose3>(i).rotation().yaw();
 	            cloudKeyPoses6D->points[i].yaw   = isamCurrentEstimate.at<Pose3>(i).rotation().roll();
@@ -1629,7 +1629,7 @@ public:
         laserCloudCornerFromMap->clear();
         laserCloudSurfFromMap->clear();
         laserCloudCornerFromMapDS->clear();
-        laserCloudSurfFromMapDS->clear();   
+        laserCloudSurfFromMapDS->clear();
     }
 
     void run(){
@@ -1683,7 +1683,7 @@ int main(int argc, char** argv)
     // std::thread 构造函数，将MO作为参数传入构造的线程中使用
     // 进行闭环检测与闭环的功能
     std::thread loopthread(&mapOptimization::loopClosureThread, &MO);
-	
+    
     // 该线程中进行的工作是publishGlobalMap(),将数据发布到ros中，可视化
     std::thread visualizeMapThread(&mapOptimization::visualizeGlobalMapThread, &MO);
 
