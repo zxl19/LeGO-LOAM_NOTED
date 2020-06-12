@@ -35,7 +35,7 @@ private:
     ros::NodeHandle nh;
 
     ros::Subscriber subLaserCloud;
-    
+
     ros::Publisher pubFullCloud;
     ros::Publisher pubFullInfoCloud;
 
@@ -84,7 +84,7 @@ public:
         // 定义Publisher和Subscriber
         // 收到消息后调用cloudHandler函数
         subLaserCloud = nh.subscribe<sensor_msgs::PointCloud2>("/velodyne_points", 1, &ImageProjection::cloudHandler, this);
-        
+
         pubFullCloud = nh.advertise<sensor_msgs::PointCloud2> ("/full_cloud_projected", 1);
         pubFullInfoCloud = nh.advertise<sensor_msgs::PointCloud2> ("/full_cloud_info", 1);
 
@@ -159,13 +159,13 @@ public:
     }
     // 析构函数
     ~ImageProjection(){}
-	
+
     void copyPointCloud(const sensor_msgs::PointCloud2ConstPtr& laserCloudMsg){
         // 将ROS中的sensor_msgs::PointCloud2ConstPtr类型转换到pcl点云库指针
         cloudHeader = laserCloudMsg->header;
         pcl::fromROSMsg(*laserCloudMsg, *laserCloudIn);
     }
-    
+
     void cloudHandler(const sensor_msgs::PointCloud2ConstPtr& laserCloudMsg){
         // 查看各函数的具体功能
         copyPointCloud(laserCloudMsg);
@@ -219,7 +219,7 @@ public:
 
             // 计算竖直方向上的角度（雷达的第几线）
             verticalAngle = atan2(thisPoint.z, sqrt(thisPoint.x * thisPoint.x + thisPoint.y * thisPoint.y)) * 180 / M_PI;
-			
+
             // rowIdn计算出该点激光雷达是竖直方向上第几线的
 			// 从下往上计数，-15度记为初始线，第0线，一共16线(N_SCAN=16)
             // *对于角分辨率非定值的非Velodyne雷达需要调整（已解决）
@@ -344,7 +344,7 @@ public:
 
         int sizeOfSegCloud = 0;
         for (size_t i = 0; i < N_SCAN; ++i) {
-			
+
 			// segMsg.startRingIndex[i]
 			// segMsg.endRingIndex[i]
 			// 表示第i线的点云起始序列和终止序列
